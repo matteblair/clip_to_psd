@@ -2383,6 +2383,8 @@ def save_psd(output_psd, chunks, sqlite_info, layer_ordered):
         # and other psd files have mixed convention about these null bytes
         unicode_layer_name = len(layer_name).to_bytes(4, 'big') + layer_name.encode('UTF-16BE')
         layer_tags.append(( b'luni', unicode_layer_name ))
+        layer_id = getattr(layer, 'MainId', 0)
+        layer_tags.append((b'lyid', layer_id.to_bytes(4, 'big')))
         layer_tags.append(( b'tsly', transparency_shapes_layer.to_bytes(4, 'big') ))
         if txt:
             layer_tags.append((b'TySh', txt))
